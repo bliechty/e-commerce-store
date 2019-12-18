@@ -1,12 +1,72 @@
 import React from "react";
-import { connect, Provider } from "react-redux";
+import { Provider } from "react-redux";
+import store from "./store";
+import HomePage from "./components/HomePage";
+import Products from "./components/Products";
+import Cart from "./components/Cart";
+import ProductDetails from "./components/ProductDetails";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    Link
+} from "react-router-dom"
 
-function App() {
-  return (
-    <div>
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
+            .then(response => response.json())
+            .then(products => this.setProducts(products));
+    }
 
-    </div>
-  );
+    setProducts = products => {
+        store.dispatch({
+            type: "GET_PRODUCTS",
+            products
+        });
+    };
+
+    render() {
+        return (
+            <div className="container">
+                <Router>
+                    <div className="ui secondary pointing menu">
+                        <Link to="/products">
+                            <div className="item">Products</div>
+                        </Link>
+                        <div className="right menu">
+                            <Link to="/cart">
+                                <div className="item">
+                                    <i className="fas fa-shopping-cart">
+                                    </i>
+                                </div>
+                            </Link>
+                        </div>
+                    </div>
+                    <Switch>
+                        <Route exact path="/">
+                            <HomePage />
+                        </Route>
+                        <Route exact path="/products/">
+                            <Products/>
+                        </Route>
+                        <Route path="/products/:productId" component={ProductDetails}/>
+                        <Route path="/cart">
+                            <Cart />
+                        </Route>
+                        <Route render={() => <div>404 not found</div>} />
+                    </Switch>
+                </Router>
+            </div>
+        )
+    }
 }
 
-export default App;
+const WrappedApp = () => (
+    <Provider store={store}>
+        <App />
+    </Provider>
+);
+
+export default WrappedApp;
