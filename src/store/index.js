@@ -13,20 +13,13 @@ const reducer = (state, action) => {
                 ...state,
                 cart: []
             };
-        case "GET_PRODUCTS":
-            console.log(action.products);
-            return {
-                ...state,
-                products: action.products,
-            };
         default:
             return state;
     }
 };
 
 const initialState = {
-    cart: [],
-    products: [],
+    cart: []
 };
 
 const store = createStore(reducer, initialState);

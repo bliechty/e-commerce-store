@@ -13,20 +13,6 @@ import {
 } from "react-router-dom"
 
 class App extends React.Component {
-    constructor(props) {
-        super(props);
-        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
-            .then(response => response.json())
-            .then(products => this.setProducts(products));
-    }
-
-    setProducts = products => {
-        store.dispatch({
-            type: "GET_PRODUCTS",
-            products
-        });
-    };
-
     render() {
         return (
             <div className="container">
@@ -35,7 +21,7 @@ class App extends React.Component {
                         <Link to="/products">
                             <div className="item">Products</div>
                         </Link>
-                        <div className="right menu">
+                        <div className="menu">
                             <Link to="/cart">
                                 <div className="item">
                                     <i className="fas fa-shopping-cart">
@@ -49,7 +35,7 @@ class App extends React.Component {
                             <HomePage />
                         </Route>
                         <Route exact path="/products/">
-                            <Products/>
+                            <Products />
                         </Route>
                         <Route path="/products/:productId" component={ProductDetails}/>
                         <Route path="/cart">

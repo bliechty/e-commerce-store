@@ -4,18 +4,24 @@ import * as uuid from "uuid";
 
 class Products extends React.Component {
     state = {
-        inputValue: ""
+        products: [],
+        filteredProducts: []
     };
 
     componentDidMount() {
-        store.subscribe(() => this.forceUpdate());
+        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
+            .then(response => response.json())
+            .then(products => this.setState({
+                products,
+                filteredProducts: products
+            }));
     }
 
     renderProducts = () => {
-        return store.getState().products.map(product => {
+        return this.state.filteredProducts.map(product => {
             let url = `${product.img};maxHeight=160;maxWidth=200`;
             return (
-                <div key={uuid.v4()} className="card">
+                <div key={uuid.v4()} title={product.title} className="card">
                     <div className="content">
                         <div className="image center aligned">
                             <img src={url} alt={product.img} />
@@ -32,19 +38,18 @@ class Products extends React.Component {
                     </div>
                 </div>
             )
-        })
+        });
     };
 
-    onChange = (e) => {
+    filterProducts = (e) => {
+        const regex = new RegExp(e.target.value, "i");
+        const filteredProducts = this.state.products.filter(product => {
+            return regex.test(product.title) || regex.test(product.category);
+        });
+
         this.setState({
-            inputValue: e.target.value,
-        })
-    };
-
-    handleSearch = (e) => {
-        if (e.key === "Enter") {
-            console.log('enter');
-        }
+            filteredProducts
+        });
     };
 
     render() {
@@ -54,9 +59,7 @@ class Products extends React.Component {
                     <input
                         type="text"
                         placeholder="Search..."
-                        onKeyUp={this.handleSearch}
-                        onChange={this.onChange}
-                        value={this.state.inputValue}
+                        onKeyUp={this.filterProducts}
                     />
                     <i className="search icon">
                     </i>
