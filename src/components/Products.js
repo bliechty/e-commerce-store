@@ -55,7 +55,10 @@ class Products extends React.Component {
     render() {
         const isLoaded = this.state.isLoaded;
         if (!isLoaded) {
-            return <div>Loading...</div>;
+            return (
+                <div className="ui active centered inline loader">
+                </div>
+            )
         } else {
             return (
                 <div>
