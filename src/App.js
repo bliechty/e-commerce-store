@@ -21,7 +21,7 @@ class App extends React.Component {
                         <Link to="/products">
                             <div className="item">Products</div>
                         </Link>
-                        <div className="menu">
+                        <div className="right menu">
                             <Link to="/cart">
                                 <div className="item">
                                     <i className="fas fa-shopping-cart">
