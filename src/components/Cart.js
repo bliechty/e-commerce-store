@@ -2,7 +2,6 @@ import React from "react";
 import CartProduct from "./CartProduct";
 import store from "../store";
 import * as uuid from "uuid";
-import { Select } from "semantic-ui-react";
 
 class Cart extends React.Component {
     state = {
@@ -31,12 +30,14 @@ class Cart extends React.Component {
     };
 
     iterateCart = () => {
-        return this.state.cart.map(item => {
+        return this.state.cart.map(obj => {
             return (
                 <CartProduct
-                    item={item}
+                    product={obj.product}
                     key={uuid.v4()}
                     deleteItem={this.deleteItem}
+                    updateItem={this.updateItem}
+                    quantity={obj.quantity}
                 />
             )
         });
