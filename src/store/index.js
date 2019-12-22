@@ -3,6 +3,14 @@ import { createStore } from "redux";
 const reducer = (state, action) => {
     switch(action.type) {
         case "ADD_TO_CART":
+            let tempCart = [...state.cart];
+            if (!tempCart.find(item => item.id === action.product.id)) {
+                tempCart.push(action.product);
+                return {
+                    cart: tempCart
+                };
+            }
+
             return state;
         case "REMOVE_FROM_CART":
             return state;
@@ -10,7 +18,6 @@ const reducer = (state, action) => {
             return state;
         case "CONFIRM_PURCHASE":
             return {
-                ...state,
                 cart: []
             };
         default:

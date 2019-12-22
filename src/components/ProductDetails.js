@@ -1,9 +1,11 @@
 import React from "react";
+import store from "../store";
 
 class ProductDetails extends React.Component {
     state = {
         isLoaded: false,
-        product: {}
+        product: {},
+        addedToCart: ""
     };
 
     componentDidMount() {
@@ -18,6 +20,7 @@ class ProductDetails extends React.Component {
                     });
                     if (product !== undefined) {
                         this.setState({
+                            ...this.state,
                             isLoaded: true,
                             product
                         });
@@ -29,6 +32,16 @@ class ProductDetails extends React.Component {
     componentWillUnmount() {
         this.mounted = false;
     }
+
+    addToCart = () => {
+        store.dispatch({
+            type: "ADD_TO_CART",
+            product: this.state.product
+        });
+        this.setState({
+            addedToCart: "Added to cart!"
+        });
+    };
 
     render() {
         const isLoaded = this.state.isLoaded;
@@ -53,21 +66,22 @@ class ProductDetails extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="ten wide column">
-                            <div className="content">
+                        <div id="info" className="ten wide column">
+                            <div className="list">
                                 <div className="ui header">{product.title}</div>
-                                <div>Price: ${product.price}</div>
-                                <div className="description">Description: {product.description}</div>
-                                <div>Category: {product.category}</div>
-                                <div>Rating: {product.rating}</div>
+                                <li>Price: ${product.price}</li>
+                                <li className="description">Description: {product.description}</li>
+                                <li>Category: {product.category}</li>
+                                <li>Rating: {product.rating}</li>
                             </div>
                             <div className="ui divider hidden">
                             </div>
-                            <button className="ui teal labeled icon button">
+                            <button className="ui teal labeled icon button" onClick={this.addToCart}>
                                 <i className="cart icon">
                                 </i>
                                 Add To Cart
                             </button>
+                            <span>{this.state.addedToCart}</span>
                         </div>
                     </div>
                 </div>
