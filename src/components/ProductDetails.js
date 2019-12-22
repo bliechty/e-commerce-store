@@ -20,7 +20,6 @@ class ProductDetails extends React.Component {
                     });
                     if (product !== undefined) {
                         this.setState({
-                            ...this.state,
                             isLoaded: true,
                             product
                         });
