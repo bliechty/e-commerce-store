@@ -1,6 +1,10 @@
 import React from "react";
 
 class CartProduct extends React.Component {
+    deleteItem = (id) => {
+        this.props.deleteItem(id);
+    };
+
     render() {
         let url = `${this.props.item.img};maxHeight=144;maxWidth=180`;
 
@@ -33,7 +37,7 @@ class CartProduct extends React.Component {
                         <button className="positive ui button">
                             Update Item
                         </button>
-                        <button className="ui negative basic button">
+                        <button className="ui negative basic button" onClick={() => this.deleteItem(this.props.item.id)}>
                             Delete Item
                         </button>
                     </div>

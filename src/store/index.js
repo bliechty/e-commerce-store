@@ -10,10 +10,13 @@ const reducer = (state, action) => {
                     cart: tempCart
                 };
             }
-
             return state;
         case "REMOVE_FROM_CART":
-            return state;
+            return {
+                cart: state.cart.filter(item => {
+                    return item.id !== action.id
+                })
+            };
         case "UPDATE_ITEM_IN_CART":
             return state;
         case "CONFIRM_PURCHASE":
