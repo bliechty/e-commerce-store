@@ -10,7 +10,7 @@ import {
     Route,
     Switch,
     Link
-} from "react-router-dom"
+} from "react-router-dom";
 
 class App extends React.Component {
     render() {
@@ -18,14 +18,18 @@ class App extends React.Component {
             <div className="container">
                 <Router>
                     <div className="ui secondary pointing menu">
+                        <Link to="/">
+                            <div className="item">Home</div>
+                        </Link>
                         <Link to="/products">
                             <div className="item">Products</div>
                         </Link>
                         <div className="right menu">
                             <Link to="/cart">
                                 <div className="item">
-                                    <i className="fas fa-shopping-cart">
+                                    <i className="shop icon">
                                     </i>
+                                    Cart
                                 </div>
                             </Link>
                         </div>
