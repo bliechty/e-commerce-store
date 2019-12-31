@@ -30,6 +30,12 @@ class Products extends React.Component {
     }
 
     renderProducts = () => {
+        if (this.state.filteredProducts.length === 0) {
+            return (
+                <div className="ui header">No products match your search</div>
+            )
+        }
+
         return this.state.filteredProducts.map(product => {
             return (
                 <Product
