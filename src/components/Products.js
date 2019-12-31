@@ -48,10 +48,14 @@ class Products extends React.Component {
     };
 
     filterProducts = (e) => {
-        const regex = new RegExp(e.target.value, "i");
-        const filteredProducts = this.state.products.filter(product => {
-            return regex.test(product.title) || regex.test(product.category);
-        });
+        let filteredProducts = [];
+
+        if (!/\\/.test(e.target.value)) {
+            const regex = new RegExp(e.target.value, "i");
+            filteredProducts = this.state.products.filter(product => {
+                return regex.test(product.title) || regex.test(product.category);
+            });
+        }
 
         this.setState({
             filteredProducts
