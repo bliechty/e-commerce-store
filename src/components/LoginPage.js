@@ -23,7 +23,8 @@ class LoginPage extends React.Component {
 
     onChange = (e) => {
         this.setState({
-            value: e.target.value
+            value: e.target.value,
+            loginError: ""
         });
     };
 

@@ -4,6 +4,15 @@ import store from "../store";
 
 class Navigation extends React.Component {
     render() {
+        let username = store.getState().username;
+        let welcomeMessage =  "";
+
+        if (!username) {
+            welcomeMessage = "Not logged in";
+        } else {
+            welcomeMessage = `Hello, ${username}!`;
+        }
+
         return (
             <div className="ui secondary pointing menu">
                 <Link to="/home">
@@ -22,7 +31,7 @@ class Navigation extends React.Component {
                     </Link>
                 </div>
                 <div className="item">
-                    Hello, {store.getState().username}!
+                    {welcomeMessage}
                 </div>
             </div>
         )
