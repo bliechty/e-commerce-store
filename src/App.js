@@ -5,53 +5,53 @@ import HomePage from "./components/HomePage";
 import Products from "./components/Products";
 import Cart from "./components/Cart";
 import ProductDetails from "./components/ProductDetails";
+import LoginPage from "./components/LoginPage";
+import Navigation from "./components/Navigation";
 import {
     BrowserRouter as Router,
     Route,
     Switch,
-    Link
+    Redirect
 } from "react-router-dom";
 
 class App extends React.Component {
     render() {
         return (
-            <div className="container">
-                <Router>
-                    <div className="ui secondary pointing menu">
-                        <Link to="/">
-                            <div className="item">Home</div>
-                        </Link>
-                        <Link to="/products">
-                            <div className="item">Products</div>
-                        </Link>
-                        <div className="right menu">
-                            <Link to="/cart">
-                                <div className="item">
-                                    <i className="shop icon">
-                                    </i>
-                                    Cart
-                                </div>
-                            </Link>
-                        </div>
-                    </div>
-                    <Switch>
-                        <Route exact path="/">
-                            <HomePage />
-                        </Route>
-                        <Route exact path="/products/">
-                            <Products />
-                        </Route>
-                        <Route path="/products/:productId" component={ProductDetails}/>
-                        <Route path="/cart">
-                            <Cart />
-                        </Route>
-                        <Route render={() => <div>404 not found</div>} />
-                    </Switch>
-                </Router>
-            </div>
+            <Router>
+                <Switch>
+                    <Route exact path="/login" component={LoginContainer}/>
+                    <Route component={DefaultContainer}/>
+                </Switch>
+            </Router>
         )
     }
 }
+
+const LoginContainer = () => (
+    <>
+        <Route path="/login" component={LoginPage} />
+    </>
+);
+
+const DefaultContainer = () => (
+    <>
+        <Navigation />
+        <Switch>
+            <Route exact path="/" render={() => <Redirect to="/login" />} />
+            <Route path="/home">
+                <HomePage />
+            </Route>
+            <Route exact path="/products/">
+                <Products />
+            </Route>
+            <Route path="/products/:productId" component={ProductDetails}/>
+            <Route path="/cart">
+                <Cart />
+            </Route>
+            <Route render={() => <div>404 not found</div>} />
+        </Switch>
+    </>
+);
 
 const WrappedApp = () => (
     <Provider store={store}>

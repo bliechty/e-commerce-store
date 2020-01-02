@@ -10,18 +10,21 @@ const reducer = (state, action) => {
                     quantity: "1"
                 });
                 return {
+                    ...state,
                     cart: tempCart
                 };
             }
             return state;
         case "REMOVE_FROM_CART":
             return {
+                ...state,
                 cart: state.cart.filter(obj => {
                     return obj.product.id !== action.id
                 })
             };
         case "UPDATE_ITEM":
             return {
+                ...state,
                 cart: state.cart.map(obj => {
                     if (obj.product.id === action.id) {
                         return {
@@ -35,7 +38,13 @@ const reducer = (state, action) => {
             };
         case "CONFIRM_PURCHASE":
             return {
+                ...state,
                 cart: []
+            };
+        case "SET_USERNAME":
+            return {
+                ...state,
+                username: action.username
             };
         default:
             return state;
@@ -43,7 +52,8 @@ const reducer = (state, action) => {
 };
 
 const initialState = {
-    cart: []
+    cart: [],
+    username: ""
 };
 
 const store = createStore(reducer, initialState);
