@@ -44,12 +44,13 @@ class Cart extends React.Component {
     };
 
     render() {
+        console.log(store.getState().username);
         if (this.state.confirmPurchase) {
             return (
                 <div className="ui container">
                     <div className="ui success message">
                         <div className="header">
-                            Thank you for your purchase!
+                            Thank you for your purchase, {store.getState().username}!
                         </div>
                     </div>
                 </div>

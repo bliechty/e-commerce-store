@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import React from "react";
+import store from "../store";
 
 class Navigation extends React.Component {
     render() {
@@ -19,6 +20,9 @@ class Navigation extends React.Component {
                             Cart
                         </div>
                     </Link>
+                </div>
+                <div className="item">
+                    Hello, {store.getState().username}!
                 </div>
             </div>
         )
