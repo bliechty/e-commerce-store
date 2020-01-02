@@ -19,6 +19,7 @@ class App extends React.Component {
         return (
             <Router>
                 <Switch>
+                    <Route exact path="/" render={() => <Redirect to="/login" />} />
                     <Route exact path="/login" component={LoginContainer}/>
                     <Route component={DefaultContainer}/>
                 </Switch>
@@ -37,7 +38,6 @@ const DefaultContainer = () => (
     <>
         <Navigation />
         <Switch>
-            <Route exact path="/" render={() => <Redirect to="/login" />} />
             <Route path="/home">
                 <HomePage />
             </Route>
