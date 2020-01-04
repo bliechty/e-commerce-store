@@ -3,39 +3,13 @@ import store from "../store";
 
 class ProductDetails extends React.Component {
     state = {
-        isLoaded: false,
-        product: {},
         addedToCart: ""
     };
 
-    componentDidMount() {
-        this.mounted = true;
-
-        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
-            .then(response => response.json())
-            .then(products => {
-                if (this.mounted) {
-                    const product = products.find(p => {
-                        return p.id === Number(this.props.match.params.productId);
-                    });
-                    if (product !== undefined) {
-                        this.setState({
-                            isLoaded: true,
-                            product
-                        });
-                    }
-                }
-            });
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    addToCart = () => {
+    addToCart = (product) => {
         store.dispatch({
             type: "ADD_TO_CART",
-            product: this.state.product
+            product
         });
         this.setState({
             addedToCart: "Added to cart!"
@@ -43,15 +17,15 @@ class ProductDetails extends React.Component {
     };
 
     render() {
-        const isLoaded = this.state.isLoaded;
-
-        if (!isLoaded) {
+        if (this.props.products.length === 0) {
             return (
                 <div className="ui active centered inline loader">
                 </div>
             )
         } else {
-            const product = this.state.product;
+            const product = this.props.products.find(p => {
+                return p.id === Number(this.props.match.params.productId);
+            });
             const url = `${product.img};maxHeight=336;maxWidth=420`;
             return (
                 <div className="ui container">
@@ -75,7 +49,7 @@ class ProductDetails extends React.Component {
                             </div>
                             <div className="ui divider hidden">
                             </div>
-                            <button className="ui teal labeled icon button" onClick={this.addToCart}>
+                            <button className="ui teal labeled icon button" onClick={() => this.addToCart(product)}>
                                 <i className="cart icon">
                                 </i>
                                 Add To Cart

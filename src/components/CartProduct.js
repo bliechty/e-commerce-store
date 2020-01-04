@@ -3,11 +3,6 @@ import { Dropdown } from "semantic-ui-react";
 import store from "../store";
 
 class CartProduct extends React.Component {
-    state = {
-        value: this.props.quantity,
-        updateItem: ""
-    };
-
     constructor(props) {
         super(props);
         this.amount = [
@@ -16,14 +11,19 @@ class CartProduct extends React.Component {
             { key: "3", value: "3", text: "3" },
             { key: "4", value: "4", text: "4" },
             { key: "5", value: "5", text: "5" }
-        ]
+        ];
+
+        this.state = {
+            value: this.props.quantity,
+            updateItem: ""
+        };
     }
 
     deleteItem = (id) => {
         this.props.deleteItem(id);
     };
 
-    updateItem = (id, quantity) => {
+    updateQuantity = (id, quantity) => {
         store.dispatch({
             type: "UPDATE_ITEM",
             id,
@@ -31,7 +31,7 @@ class CartProduct extends React.Component {
         });
         this.setState({
             updateItem: "Item updated!"
-        })
+        });
     };
 
     onChange = (e) => {
@@ -79,7 +79,7 @@ class CartProduct extends React.Component {
                             onChange={this.onChange}
                         />
                         <button className="positive ui button"
-                                onClick={() => this.updateItem(this.props.product.id, this.state.value)}>
+                                onClick={() => this.updateQuantity(this.props.product.id, this.state.value)}>
                             Update Item
                         </button>
                         <span>{this.state.updateItem}</span>

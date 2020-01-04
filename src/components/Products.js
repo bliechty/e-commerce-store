@@ -4,29 +4,21 @@ import * as uuid from "uuid";
 
 class Products extends React.Component {
     state = {
-        isLoaded: false,
         products: [],
         filteredProducts: []
     };
 
-    componentDidMount() {
-        this.mounted = true;
-
-        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
-            .then(response => response.json())
-            .then(products => {
-                if (this.mounted) {
-                    this.setState({
-                        isLoaded: true,
-                        products,
-                        filteredProducts: products
-                    });
-                }
-            });
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.products.length === 0 && nextProps.products.length !== 0) {
+            return {
+                products: nextProps.products,
+                filteredProducts: nextProps.products
+            }
+        } else {
+            return {
+                filteredProducts: prevState.filteredProducts
+            }
+        }
     }
 
     renderProducts = () => {
@@ -41,7 +33,6 @@ class Products extends React.Component {
                 <Product
                     key={uuid.v4()}
                     product={product}
-                    products={this.state.products}
                 />
             )
         });
@@ -52,7 +43,7 @@ class Products extends React.Component {
 
         if (!/\\/.test(e.target.value)) {
             const regex = new RegExp(e.target.value, "i");
-            filteredProducts = this.state.products.filter(product => {
+            filteredProducts = this.props.products.filter(product => {
                 return regex.test(product.title) || regex.test(product.category);
             });
         }
@@ -63,8 +54,7 @@ class Products extends React.Component {
     };
 
     render() {
-        const isLoaded = this.state.isLoaded;
-        if (!isLoaded) {
+        if (this.props.products.length === 0) {
             return (
                 <div className="ui active centered inline loader">
                 </div>

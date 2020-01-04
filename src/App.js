@@ -15,43 +15,47 @@ import {
 } from "react-router-dom";
 
 class App extends React.Component {
+    state = {
+        products: []
+    };
+
+    componentDidMount() {
+        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
+            .then(response => response.json())
+            .then(products => {
+                this.setState({
+                    products
+                });
+            });
+    }
+
     render() {
         return (
             <Router>
                 <Switch>
                     <Route exact path="/" render={() => <Redirect to="/login" />} />
-                    <Route exact path="/login" component={LoginContainer}/>
-                    <Route component={DefaultContainer}/>
+                    <Route exact path="/login" component={LoginPage} />
+                    <Route render={(props) => <DefaultContainer {...props} products={this.state.products} />} />
                 </Switch>
             </Router>
         )
     }
 }
 
-const LoginContainer = () => (
-    <>
-        <Route path="/login" component={LoginPage} />
-    </>
-);
-
-const DefaultContainer = () => (
-    <>
-        <Navigation />
-        <Switch>
-            <Route path="/home">
-                <HomePage />
-            </Route>
-            <Route exact path="/products/">
-                <Products />
-            </Route>
-            <Route path="/products/:productId" component={ProductDetails}/>
-            <Route path="/cart">
-                <Cart />
-            </Route>
-            <Route render={() => <div>404 not found</div>} />
-        </Switch>
-    </>
-);
+const DefaultContainer = (properties) => {
+    return (
+        <>
+            <Navigation/>
+            <Switch>
+                <Route path="/home" render={(props) => <HomePage {...props} products={properties.products} /> } />
+                <Route exact path="/products/" render={(props) => <Products {...props} products={properties.products} />} />
+                <Route path="/products/:productId" render={(props) => <ProductDetails {...props} products={properties.products} />} />
+                <Route path="/cart" render={(props) => <Cart {...props} products={properties.products} />} />
+                <Route render={() => <div>404 not found</div>}/>
+            </Switch>
+        </>
+    )
+};
 
 const WrappedApp = () => (
     <Provider store={store}>

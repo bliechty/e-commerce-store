@@ -3,48 +3,21 @@ import Product from "./Product";
 import * as uuid from "uuid";
 
 class HomePage extends React.Component {
-    state  = {
-        featuredProducts: [],
-        isLoaded: false
-    };
-
-    componentDidMount() {
-        this.mounted = true;
-
-        fetch("https://my-json-server.typicode.com/tdmichaelis/json-api/products")
-            .then(response => response.json())
-            .then(products => {
-                if (this.mounted) {
-                    const featuredProducts = products.filter(p => {
-                        return p.category === "action-camera"
-                    });
-                    this.setState({
-                        isLoaded: true,
-                        featuredProducts
-                    });
-                }
-            });
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
     renderFeaturedProducts() {
-        return this.state.featuredProducts.map(product => {
+        return this.props.products.filter(product => {
+            return product.category === "action-camera"
+        }).map((product) => {
             return (
                 <Product
                     key={uuid.v4()}
                     product={product}
-                    products={this.state.products}
                 />
             )
         });
     }
 
     render() {
-        const isLoaded = this.state.isLoaded;
-        if (!isLoaded) {
+        if (this.props.products.length === 0) {
             return (
                 <div className="ui active centered inline loader">
                 </div>

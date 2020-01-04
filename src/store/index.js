@@ -46,6 +46,19 @@ const reducer = (state, action) => {
                 ...state,
                 username: action.username
             };
+        case "SET_PRODUCTS":
+            return {
+                ...state,
+                products: action.products,
+                filteredProducts: action.products
+            };
+        case "SET_PRODUCT_DETAILS":
+            return {
+                ...state,
+                product: state.products.find(p => {
+                    return p.id === Number(this.props.match.params.productId);
+                })
+            };
         default:
             return state;
     }
@@ -53,7 +66,7 @@ const reducer = (state, action) => {
 
 const initialState = {
     cart: [],
-    username: ""
+    username: "",
 };
 
 const store = createStore(reducer, initialState);

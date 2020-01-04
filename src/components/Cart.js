@@ -5,18 +5,14 @@ import * as uuid from "uuid";
 
 class Cart extends React.Component {
     state = {
-        cart: store.getState().cart,
         confirmPurchase: false
     };
 
     deleteItem = (id) => {
         store.dispatch({
             type: "REMOVE_FROM_CART",
-            id,
+            id
         });
-        this.setState({
-            cart: store.getState().cart
-        })
     };
 
     confirmPurchase = () => {
@@ -24,19 +20,17 @@ class Cart extends React.Component {
             type: "CONFIRM_PURCHASE"
         });
         this.setState({
-            cart: [],
             confirmPurchase: true
         });
     };
 
     iterateCart = () => {
-        return this.state.cart.map(obj => {
+        return store.getState().cart.map(obj => {
             return (
                 <CartProduct
                     product={obj.product}
                     key={uuid.v4()}
                     deleteItem={this.deleteItem}
-                    updateItem={this.updateItem}
                     quantity={obj.quantity}
                 />
             )
@@ -45,12 +39,12 @@ class Cart extends React.Component {
 
     render() {
         let username = store.getState().username;
-        let welcomeMessage =  "";
+        let message =  "";
 
         if (!username) {
-            welcomeMessage = "Thank you for your purchase!";
+            message = "Thank you for your purchase!";
         } else {
-            welcomeMessage = `Thank you for your purchase, ${username}!`;
+            message = `Thank you for your purchase, ${username}!`;
         }
 
         if (this.state.confirmPurchase) {
@@ -58,12 +52,12 @@ class Cart extends React.Component {
                 <div className="ui container">
                     <div className="ui success message">
                         <div className="header">
-                            {welcomeMessage}
+                            {message}
                         </div>
                     </div>
                 </div>
             )
-        } else if (this.state.cart.length === 0) {
+        } else if (store.getState().cart.length === 0) {
             return (
                 <>
                     <div className="ui hidden divider">
