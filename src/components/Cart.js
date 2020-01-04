@@ -13,6 +13,7 @@ class Cart extends React.Component {
             type: "REMOVE_FROM_CART",
             id
         });
+        this.forceUpdate();
     };
 
     confirmPurchase = () => {
