@@ -4,14 +4,14 @@ import * as uuid from "uuid";
 
 class Products extends React.Component {
     state = {
-        products: [],
+        productsReceived: false,
         filteredProducts: []
     };
 
     static getDerivedStateFromProps(nextProps, prevState) {
-        if (prevState.products.length === 0 && nextProps.products.length !== 0) {
+        if (prevState.productsReceived === false && nextProps.products.length !== 0) {
             return {
-                products: nextProps.products,
+                productsReceived: true,
                 filteredProducts: nextProps.products
             }
         } else {
