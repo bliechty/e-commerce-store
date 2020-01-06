@@ -7,7 +7,7 @@ const reducer = (state, action) => {
             if (!tempCart.find(obj => obj.product.id === action.product.id)) {
                 tempCart.push({
                     product: action.product,
-                    quantity: "1",
+                    quantity: 1,
                     value: "1",
                     itemUpdated: ""
                 });

@@ -71,6 +71,7 @@ class Products extends React.Component {
                             type="text"
                             placeholder="Search..."
                             onKeyUp={this.filterProducts}
+                            id="search-bar"
                         />
                         <i className="search icon">
                         </i>

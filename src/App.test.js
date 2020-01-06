@@ -5,6 +5,7 @@ import ProductDetails from "./components/ProductDetails";
 import fetchMock from "fetch-mock";
 import store from "./store";
 import Cart from "./components/Cart";
+import products from "./productsList";
 
 describe("App", () => {
     describe("Product Details", () => {
@@ -30,7 +31,10 @@ describe("App", () => {
 
         it("Should have a product title, add to cart button and image", done => {
             const match = { params: { productId: "1" } };
-            const wrapper = shallow(<ProductDetails match={match} />);
+            const wrapper = shallow(<ProductDetails
+                                        products={products}
+                                        match={match}
+                                    />);
             setTimeout(() => {
                 expect(wrapper.find("button").text()).toBe("Add To Cart");
                 expect(wrapper.find("div.ui.header").text()).toBe("Toshiba - 49” Class – LED - 1080p");
@@ -41,7 +45,10 @@ describe("App", () => {
 
         it("Should successfully add an item to the redux store", done => {
             const match = { params: { productId: "1" } };
-            const wrapper = shallow(<ProductDetails match={match} />);
+            const wrapper = shallow(<ProductDetails
+                                        products={products}
+                                        match={match}
+                                    />);
             setTimeout(() => {
                 wrapper.find("button").simulate("click");
                 const cart = store.getState().cart;

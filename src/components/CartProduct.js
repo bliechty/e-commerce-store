@@ -12,10 +12,6 @@ class CartProduct extends React.Component {
             { key: "4", value: "4", text: "4" },
             { key: "5", value: "5", text: "5" }
         ];
-
-        this.state = {
-            value: this.props.quantity,
-        };
     }
 
     deleteItem = (id) => {
@@ -80,7 +76,7 @@ class CartProduct extends React.Component {
                             onChange={(e) => this.onChange(e, this.props.product.id)}
                         />
                         <button className="positive ui button"
-                                onClick={() => this.updateQuantity(this.props.product.id, this.state.value)}>
+                                onClick={() => this.updateQuantity(this.props.product.id, this.props.value)}>
                             Update Item
                         </button>
                         <span>{this.props.itemUpdated}</span>
