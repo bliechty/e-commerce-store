@@ -66,7 +66,7 @@ const reducer = (state, action) => {
 
 const initialState = {
     cart: [],
-    username: "",
+    username: ""
 };
 
 const store = createStore(reducer, initialState);

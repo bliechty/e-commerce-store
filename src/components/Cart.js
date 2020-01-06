@@ -4,25 +4,33 @@ import store from "../store";
 import * as uuid from "uuid";
 
 class Cart extends React.Component {
-    state = {
-        confirmPurchase: false
-    };
+    constructor(props) {
+        super(props);
+        this.confirmPurchase = false;
+    }
+
+    componentDidMount() {
+        this.unsubscribe = store.subscribe(() => {
+            this.forceUpdate();
+        });
+    }
+
+    componentWillUnmount() {
+        this.unsubscribe();
+    }
 
     deleteItem = (id) => {
         store.dispatch({
             type: "REMOVE_FROM_CART",
             id
         });
-        this.forceUpdate();
     };
 
-    confirmPurchase = () => {
+    completePurchase = () => {
         store.dispatch({
             type: "CONFIRM_PURCHASE"
         });
-        this.setState({
-            confirmPurchase: true
-        });
+        this.confirmPurchase = true;
     };
 
     iterateCart = () => {
@@ -48,7 +56,7 @@ class Cart extends React.Component {
             message = `Thank you for your purchase, ${username}!`;
         }
 
-        if (this.state.confirmPurchase) {
+        if (this.confirmPurchase) {
             return (
                 <div className="ui container">
                     <div className="ui success message">
@@ -71,7 +79,7 @@ class Cart extends React.Component {
                 <div className="ui container">
                     {this.iterateCart()}
                     <button className="positive ui button big right floated"
-                            onClick={this.confirmPurchase}>Confirm Purchase</button>
+                            onClick={this.completePurchase}>Confirm Purchase</button>
                 </div>
             )
         }

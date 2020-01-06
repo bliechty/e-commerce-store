@@ -15,7 +15,6 @@ class CartProduct extends React.Component {
 
         this.state = {
             value: this.props.quantity,
-            updateItem: ""
         };
     }
 
@@ -29,21 +28,16 @@ class CartProduct extends React.Component {
             id,
             quantity
         });
-        this.setState({
-            updateItem: "Item updated!"
-        });
     };
 
     onChange = (e) => {
         if (e.target.querySelector("span") === null) {
             this.setState({
                 value: e.target.innerText,
-                updateItem: ""
             });
         } else {
             this.setState({
                 value: e.target.querySelector("span").innerText,
-                updateItem: ""
             });
         }
     };
@@ -82,7 +76,7 @@ class CartProduct extends React.Component {
                                 onClick={() => this.updateQuantity(this.props.product.id, this.state.value)}>
                             Update Item
                         </button>
-                        <span>{this.state.updateItem}</span>
+                        <span></span>
                         <button className="ui negative basic button" onClick={() => this.deleteItem(this.props.product.id)}>
                             Delete Item
                         </button>
