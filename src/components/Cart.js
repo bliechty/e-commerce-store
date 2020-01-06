@@ -17,9 +17,6 @@ class Cart extends React.Component {
 
     componentWillUnmount() {
         this.unsubscribe();
-        store.dispatch({
-            type: "RESET_ALL_UPDATE_ITEM"
-        });
     }
 
     completePurchase = () => {
@@ -37,8 +34,6 @@ class Cart extends React.Component {
                     key={uuid.v4()}
                     deleteItem={this.deleteItem}
                     quantity={obj.quantity}
-                    itemUpdated={obj.itemUpdated}
-                    value={obj.value}
                 />
             )
         });

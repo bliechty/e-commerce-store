@@ -96,14 +96,13 @@ describe("App", () => {
             store.dispatch({
                 type: "UPDATE_ITEM",
                 id: 1,
-                quantity: 3
+                quantity: "3"
             });
-            console.log(store.getState().cart);
-            expect(store.getState().cart[0].quantity).toBe(3);
+            expect(store.getState().cart[0].quantity).toBe("3");
             const wrapper = mount(<Cart />);
             const e = wrapper.find("#select1").at(0);
             const text = e.props().value;
-            expect(text).toBe(3);
+            expect(text).toBe("3");
         });
     });
 });

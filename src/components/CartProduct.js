@@ -21,25 +21,17 @@ class CartProduct extends React.Component {
         });
     };
 
-    updateQuantity = (id, quantity) => {
-        store.dispatch({
-            type: "UPDATE_ITEM",
-            id,
-            quantity
-        });
-    };
-
     onChange = (e, id) => {
         if (e.target.querySelector("span") === null) {
             store.dispatch({
-                type: "RESET_UPDATE_ITEM",
-                value: e.target.innerText,
+                type: "UPDATE_ITEM",
+                quantity: e.target.innerText,
                 id
             });
         } else {
             store.dispatch({
-                type: "RESET_UPDATE_ITEM",
-                value: e.target.querySelector("span").innerText,
+                type: "UPDATE_ITEM",
+                quantity: e.target.querySelector("span").innerText,
                 id
             });
         }
@@ -68,18 +60,13 @@ class CartProduct extends React.Component {
                         <div className="ui divider hidden">
                         </div>
                         <Dropdown
-                            value={this.props.value}
+                            value={this.props.quantity}
                             selection
                             compact
                             options={this.amount}
                             id={"select" + this.props.product.id}
                             onChange={(e) => this.onChange(e, this.props.product.id)}
                         />
-                        <button className="positive ui button"
-                                onClick={() => this.updateQuantity(this.props.product.id, this.props.value)}>
-                            Update Item
-                        </button>
-                        <span>{this.props.itemUpdated}</span>
                         <button className="ui negative basic button" onClick={() => this.deleteItem(this.props.product.id)}>
                             Delete Item
                         </button>
