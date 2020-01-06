@@ -7,7 +7,9 @@ const reducer = (state, action) => {
             if (!tempCart.find(obj => obj.product.id === action.product.id)) {
                 tempCart.push({
                     product: action.product,
-                    quantity: "1"
+                    quantity: "1",
+                    value: "1",
+                    itemUpdated: ""
                 });
                 return {
                     ...state,
@@ -29,11 +31,37 @@ const reducer = (state, action) => {
                     if (obj.product.id === action.id) {
                         return {
                             ...obj,
-                            quantity: action.quantity
+                            quantity: action.quantity,
+                            itemUpdated: "Item updated!"
                         }
                     }
 
                     return obj;
+                })
+            };
+        case "RESET_UPDATE_ITEM":
+            return {
+                ...state,
+                cart: state.cart.map(obj => {
+                    if (obj.product.id === action.id) {
+                        return {
+                            ...obj,
+                            itemUpdated: "",
+                            value: action.value
+                        }
+                    }
+
+                    return obj;
+                })
+            };
+        case "RESET_ALL_UPDATE_ITEM":
+            return {
+                ...state,
+                cart: state.cart.map(obj => {
+                    return {
+                        ...obj,
+                        itemUpdated: "",
+                    }
                 })
             };
         case "CONFIRM_PURCHASE":

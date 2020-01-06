@@ -19,7 +19,10 @@ class CartProduct extends React.Component {
     }
 
     deleteItem = (id) => {
-        this.props.deleteItem(id);
+        store.dispatch({
+            type: "REMOVE_FROM_CART",
+            id
+        });
     };
 
     updateQuantity = (id, quantity) => {
@@ -30,14 +33,18 @@ class CartProduct extends React.Component {
         });
     };
 
-    onChange = (e) => {
+    onChange = (e, id) => {
         if (e.target.querySelector("span") === null) {
-            this.setState({
+            store.dispatch({
+                type: "RESET_UPDATE_ITEM",
                 value: e.target.innerText,
+                id
             });
         } else {
-            this.setState({
+            store.dispatch({
+                type: "RESET_UPDATE_ITEM",
                 value: e.target.querySelector("span").innerText,
+                id
             });
         }
     };
@@ -65,18 +72,18 @@ class CartProduct extends React.Component {
                         <div className="ui divider hidden">
                         </div>
                         <Dropdown
-                            value={this.state.value}
+                            value={this.props.value}
                             selection
                             compact
                             options={this.amount}
                             id={"select" + this.props.product.id}
-                            onChange={this.onChange}
+                            onChange={(e) => this.onChange(e, this.props.product.id)}
                         />
                         <button className="positive ui button"
                                 onClick={() => this.updateQuantity(this.props.product.id, this.state.value)}>
                             Update Item
                         </button>
-                        <span></span>
+                        <span>{this.props.itemUpdated}</span>
                         <button className="ui negative basic button" onClick={() => this.deleteItem(this.props.product.id)}>
                             Delete Item
                         </button>
