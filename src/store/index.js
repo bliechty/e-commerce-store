@@ -32,6 +32,7 @@ const reducer = (state, action) => {
                         return {
                             ...obj,
                             quantity: action.quantity,
+                            value: action.quantity,
                             itemUpdated: "Item updated!"
                         }
                     }

@@ -9,26 +9,6 @@ import products from "./productsList";
 
 describe("App", () => {
     describe("Product Details", () => {
-        beforeEach(() => {
-            fetchMock.get("https://my-json-server.typicode.com/tdmichaelis/json-api/products",
-                [
-                    {
-                        "id": 1,
-                        "title": "Toshiba - 49” Class – LED - 1080p",
-                        "description": "Toshiba HDTV Fire TV Edition is a new generation of smart TVs featuring the Fire TV experience built-in and including a Voice Remote with Alexa.",
-                        "img": "https://pisces.bbystatic.com/image2/BestBuy_US/images/products/6211/6211009_sd.jpg",
-                        "price": 199.99,
-                        "rating": 4.6,
-                        "category": "tv"
-                    }
-                ]
-            );
-        });
-
-        afterEach(() => {
-            fetchMock.reset();
-        });
-
         it("Should have a product title, add to cart button and image", done => {
             const match = { params: { productId: "1" } };
             const wrapper = shallow(<ProductDetails
@@ -60,6 +40,12 @@ describe("App", () => {
     });
 
     describe("Cart", () => {
+        beforeEach(() => {
+            store.dispatch({
+                type: "CONFIRM_PURCHASE"
+            });
+        });
+
         it("should successfully remove an item from the store and dom", () => {
             store.dispatch({
                 type: "ADD_TO_CART",
@@ -112,6 +98,7 @@ describe("App", () => {
                 id: 1,
                 quantity: 3
             });
+            console.log(store.getState().cart);
             expect(store.getState().cart[0].quantity).toBe(3);
             const wrapper = mount(<Cart />);
             const e = wrapper.find("#select1").at(0);
